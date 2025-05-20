@@ -1,5 +1,3 @@
-// utils/ApiResponse.js
-
 class SuccessResponse {
     constructor({ statusCode = 200, message = 'Success', data = {} }) {
         this.success = true;
@@ -11,9 +9,10 @@ class SuccessResponse {
 
 class ErrorResponse extends Error {
     constructor({ statusCode = 500, message = 'Something went wrong', error = null }) {
-        super(message); // Set the error message for the Error base class
+        super(message);
         this.success = false;
         this.statusCode = statusCode;
+        this.message = message;
         this.error = error;
     }
 }
