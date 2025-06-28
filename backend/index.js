@@ -11,7 +11,7 @@ const app = express();
 
 // ✅ CORS Configuration
 app.use(cors({
-    origin: "http://localhost:5173" || process.env.FRONTEND_URL, // e.g., "https://your-frontend.vercel.app"
+    origin: process.env.FRONTEND_URL, // e.g., "https://your-frontend.vercel.app"
     credentials: true // ✅ Needed for cookies
 }));
 
