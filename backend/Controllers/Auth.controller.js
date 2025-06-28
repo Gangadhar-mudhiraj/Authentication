@@ -82,14 +82,22 @@ const login = asyncHandler(async (req, res) => {
         { expiresIn: "24h" }
     );
 
+    res.cookie("token", jwtToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production", // true on Vercel
+        sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax", // ✅ "None" for cross-origin
+        maxAge: 24 * 60 * 60 * 1000
+    });
+
+
     return res.status(200).json(new SuccessResponse({
         message: "Login successful",
         data: {
-            token: jwtToken,
             email: user.email,
             name: user.name
         }
     }));
 });
+
 
 export { signup, login };

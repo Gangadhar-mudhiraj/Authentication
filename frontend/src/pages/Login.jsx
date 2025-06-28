@@ -20,32 +20,26 @@ const Login = () => {
         e.preventDefault();
 
         try {
-
-            // const isLoggedin=
             const response = await fetch(`${url}/auth/login`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
+                credentials: "include", // ✅ Important for cookie support
                 body: JSON.stringify(formData)
             });
 
             if (response.ok) {
                 const result = await response.json();
-                const { token, name } = result.data;
 
-                localStorage.setItem("token", token);
-                localStorage.setItem("loggedInUser", name);
-
-                successToast('login successfully! ');
+                successToast(`Welcome back, ${result.data.name}`);
                 navigate("/home");
             } else {
-
-                failToast(response.statusText);
+                const errorData = await response.json();
+                failToast(errorData.message || "Login failed");
             }
-
         } catch (error) {
-            failToast("Signup failed due to server error");
+            failToast("Login failed due to server error");
             console.error(error);
         }
     };
@@ -54,7 +48,6 @@ const Login = () => {
         <div className="signup-container">
             <h1>Login here</h1>
             <form onSubmit={handleSubmit}>
-
                 <div>
                     <label>Email:</label>
                     <input
@@ -78,7 +71,7 @@ const Login = () => {
                 <button type="submit">Login</button>
 
                 <span className="login-link">
-                    Doesn't have an account? <Link to="/signup">Signup</Link>
+                    Don't have an account? <Link to="/signup">Signup</Link>
                 </span>
             </form>
         </div>

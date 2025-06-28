@@ -29,15 +29,15 @@ const Signup = () => {
                 body: JSON.stringify(formData)
             });
 
+            const result = await response.json();
+
             if (response.ok) {
                 successToast('Account created successfully! Redirecting to login...');
                 setTimeout(() => {
                     navigate('/login');
                 }, 2000);
             } else {
-                console.log(response);
-
-                failToast(response.statusText);
+                failToast(result.message || "Signup failed");
             }
 
         } catch (error) {
